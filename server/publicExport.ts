@@ -1,9 +1,25 @@
-import lzma from 'lzma';
+// LZMA-JS ships its decoder as a plain script that assigns to `this`, and its
+// index.js loads it by a runtime path that bundlers cannot follow. Embedding the
+// script text keeps the decoder inside the standalone build.
+import lzmaSource from 'lzma/src/lzma_worker.js?raw';
 import { fetchBytes, fetchText, parseJsonLenient } from './http';
 
 const ORIGIN = 'https://content.warframe.com/PublicExport';
 const LZMA_HEADER_PROPS = 5;
 const LZMA_SIZE_BYTES = 8;
+
+interface LzmaDecoder {
+  decompress(data: Uint8Array | number[]): string | number[];
+}
+
+function loadLzma(): LzmaDecoder {
+  const scope: { LZMA_WORKER?: LzmaDecoder } = {};
+  new Function(lzmaSource).call(scope);
+  if (!scope.LZMA_WORKER) throw new Error('Не удалось загрузить LZMA-декодер');
+  return scope.LZMA_WORKER;
+}
+
+const lzma = loadLzma();
 
 export type ExportLang = 'en' | 'ru';
 
