@@ -1,0 +1,26 @@
+{
+  "name": "warframe-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Компаньон для Warframe: планировщик фарма и калькулятор билдов на открытых данных",
+  "type": "module",
+  "scripts": {
+    "start": "vite --open",
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "lzma": "^2.3.2",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.0.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
